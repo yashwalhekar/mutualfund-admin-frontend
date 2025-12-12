@@ -88,7 +88,7 @@ const Add = () => {
       >
         {/* Full Name */}
         <div>
-          <label className="block mb-1 font-bold font-poppins">Full Name</label>
+          <label className="block mb-1  font-poppins">Full Name</label>
           <input
             type="text"
             name="fullName"
@@ -101,9 +101,7 @@ const Add = () => {
         {/* Mobile Number */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block mb-1 font-bold font-poppins">
-              Mobile Number
-            </label>
+            <label className="block mb-1 font-poppins">Mobile Number</label>
             <input
               type="text"
               name="phone"
@@ -114,7 +112,7 @@ const Add = () => {
           </div>
 
           <div>
-            <label className="block mb-1 font-bold font-poppins">Email</label>
+            <label className="block mb-1 font-poppins">Email</label>
             <input
               type="text"
               name="email"
@@ -128,7 +126,7 @@ const Add = () => {
         {/* Country and City */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block mb-1 font-bold font-poppins">Country</label>
+            <label className="block mb-1  font-poppins">Country</label>
             <input
               type="text"
               name="country"
@@ -139,7 +137,7 @@ const Add = () => {
           </div>
 
           <div>
-            <label className="block mb-1 font-bold font-poppins">City</label>
+            <label className="block mb-1  font-poppins">City</label>
             <input
               type="text"
               name="city"
@@ -152,9 +150,7 @@ const Add = () => {
 
         {/* Testimonials Text */}
         <div>
-          <label className="block mb-1 font-bold font-poppins">
-            Testimonials Text
-          </label>
+          <label className="block mb-1  font-poppins">Testimonials Text</label>
           <textarea
             rows="6"
             name="feedbackText"

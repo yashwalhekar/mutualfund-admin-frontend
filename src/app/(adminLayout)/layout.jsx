@@ -16,10 +16,7 @@ export default function AdminLayout({ children }) {
 
       {/* Main Content */}
       <main
-        className="
-          w-full p-6 bg-gray-50 overflow-y-auto
-          lg:ml-[300px]   /* Add left margin only on large screens */
-        "
+        className="w-full p-6 bg-gray-50 overflow-y-auto lg:ml-[300px]"
         style={{ marginTop: "64px", height: "calc(100vh - 64px)" }}
       >
         {children}
