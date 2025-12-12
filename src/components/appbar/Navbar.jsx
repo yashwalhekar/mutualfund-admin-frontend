@@ -14,6 +14,7 @@ import Drawer from "@mui/material/Drawer";
 
 import { useRouter } from "next/navigation";
 import SideBarItems from "../sidebar/sideBarItems";
+import Cookies from "js-cookie";
 
 const Navbar = () => {
   const router = useRouter();
@@ -23,7 +24,8 @@ const Navbar = () => {
   const [blogOpen, setBlogOpen] = useState(false);
 
   const handleLogout = () => {
-    localStorage.clear();
+    Cookies.remove("token");
+    localStorage.removeItem("user");
     router.push("/login");
   };
   const closeAllMenus = () => {

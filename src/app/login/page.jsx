@@ -14,6 +14,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import API from "@/service/api";
+import Cookies from "js-cookie";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -26,13 +27,15 @@ const LoginPage = () => {
     try {
       const res = await API.post("/auth/login", { email, password });
       const data = res.data;
-      localStorage.setItem("token", data.token);
+
+      // Save token to cookies
+      Cookies.set("token", data.token, { expires: 7 });
+
       localStorage.setItem("user", JSON.stringify(data.user));
 
       alert("Login successful");
       router.push("/dashboard");
     } catch (error) {
-      console.error(error);
       alert(error.response?.data?.message || "Login failed");
     }
   };
@@ -49,11 +52,11 @@ const LoginPage = () => {
         initial={{ x: -200, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 1, ease: "easeOut" }}
-        className="absolute left-0 top-0 w-[70%] h-full flex items-center justify-center"
+        className="hidden md:flex absolute left-0 top-0 w-[70%] h-full items-center justify-center"
       >
         <div className="relative w-[130%] h-[130%] bg-[#98a1e6] rounded-r-full overflow-hidden left-[-20%]">
           <img
-            src="https://plus.unsplash.com/premium_photo-1742395281417-3c49a3d66dd7?q=80&w=1112&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3Dg"
+            src="https://plus.unsplash.com/premium_photo-1742395281417-3c49a3d66dd7?q=80&w=1112&auto=format&fit=crop"
             alt="Plant Money"
             className="w-full h-full object-cover"
           />
@@ -65,7 +68,7 @@ const LoginPage = () => {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.3 }}
-        className="mr-[30%]"
+        className="mr-0 md:mr-[10%] lg:mr-[30%]"
       >
         <Paper
           elevation={6}
