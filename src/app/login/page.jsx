@@ -32,8 +32,6 @@ const LoginPage = () => {
       Cookies.set("token", data.token, { expires: 7 });
 
       localStorage.setItem("user", JSON.stringify(data.user));
-
-      alert("Login successful");
       router.push("/dashboard");
     } catch (error) {
       alert(error.response?.data?.message || "Login failed");
