@@ -14,6 +14,7 @@ const SideBarItems = ({
   setTestimonialOpen,
   blogOpen,
   setBlogOpen,
+  closeAllMenus,
 }) => {
   return (
     <List>
@@ -22,7 +23,7 @@ const SideBarItems = ({
         href="/dashboard"
         style={{ textDecoration: "none", color: "inherit" }}
       >
-        <ListItemButton>
+        <ListItemButton onClick={closeAllMenus}>
           <DashboardIcon sx={{ mr: 2 }} />
           <ListItemText primary="Dashboard" />
         </ListItemButton>
@@ -40,7 +41,7 @@ const SideBarItems = ({
           href="/testimonials/add"
           style={{ textDecoration: "none", color: "inherit" }}
         >
-          <ListItemButton sx={{ pl: 6 }}>
+          <ListItemButton sx={{ pl: 6 }} onClick={closeAllMenus}>
             <AddIcon sx={{ mr: 2 }} />
             <ListItemText primary="Add Testimonial" />
           </ListItemButton>
@@ -50,7 +51,7 @@ const SideBarItems = ({
           href="/testimonials"
           style={{ textDecoration: "none", color: "inherit" }}
         >
-          <ListItemButton sx={{ pl: 6 }}>
+          <ListItemButton sx={{ pl: 6 }} onClick={closeAllMenus}>
             <ListAltIcon sx={{ mr: 2 }} />
             <ListItemText primary="View Testimonials" />
           </ListItemButton>
@@ -69,7 +70,7 @@ const SideBarItems = ({
           href="/blogs/add"
           style={{ textDecoration: "none", color: "inherit" }}
         >
-          <ListItemButton sx={{ pl: 6 }}>
+          <ListItemButton sx={{ pl: 6 }} onClick={closeAllMenus}>
             <AddIcon sx={{ mr: 2 }} />
             <ListItemText primary="Add Blog" />
           </ListItemButton>
@@ -79,7 +80,7 @@ const SideBarItems = ({
           href="/blogs"
           style={{ textDecoration: "none", color: "inherit" }}
         >
-          <ListItemButton sx={{ pl: 6 }}>
+          <ListItemButton sx={{ pl: 6 }} onClick={closeAllMenus}>
             <ListAltIcon sx={{ mr: 2 }} />
             <ListItemText primary="View Blogs" />
           </ListItemButton>
@@ -91,7 +92,7 @@ const SideBarItems = ({
         href="/contact"
         style={{ textDecoration: "none", color: "inherit" }}
       >
-        <ListItemButton>
+        <ListItemButton onClick={closeAllMenus}>
           <GroupIcon sx={{ mr: 2 }} />
           <ListItemText primary="Reached Users" />
         </ListItemButton>
