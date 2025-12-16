@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableHead,
@@ -14,35 +14,27 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import API from "@/service/api";
 
 const ReachedUsers = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john@example.com",
-      phone: "9876543210",
-      message: "I would like to know more about SIP investment.",
-    },
-    {
-      id: 2,
-      name: "Priya Sharma",
-      email: "priya@gmail.com",
-      phone: "8877665544",
-      message: "How to get started with mutual funds?",
-    },
-    {
-      id: 3,
-      name: "Yash Walhekar",
-      email: "yash@example.com",
-      phone: "9998887777",
-      message: "Please reply with more details about ELSS returns.",
-    },
-    // copy more if needed for testing pagination
-  ]);
+  const [users, setUsers] = useState([]);
+
+  const handleContactData = async () => {
+    try {
+      const res = await API.get("/contact-us");
+      console.log(res);
+      setUsers(res.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    handleContactData();
+  }, []);
 
   const handleChangePage = (_, newPage) => setPage(newPage);
 
@@ -85,36 +77,37 @@ const ReachedUsers = () => {
           </TableHead>
 
           <TableBody>
-            {users
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell>{user.name}</TableCell>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>{user.phone}</TableCell>
-                  <TableCell>
-                    {user.message.length > 40
-                      ? user.message.substring(0, 40) + "..."
-                      : user.message}
-                  </TableCell>
-                  <TableCell>
-                    <Tooltip title="Edit">
-                      <IconButton color="primary">
-                        <EditIcon />
-                      </IconButton>
-                    </Tooltip>
+            {users &&
+              users
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((user) => (
+                  <TableRow key={user.id}>
+                    <TableCell>{user.name}</TableCell>
+                    <TableCell>{user.email}</TableCell>
+                    <TableCell>{user.phone}</TableCell>
+                    <TableCell>
+                      {user.message.length > 40
+                        ? user.message.substring(0, 40) + "..."
+                        : user.message}
+                    </TableCell>
+                    <TableCell>
+                      <Tooltip title="Edit">
+                        <IconButton color="primary">
+                          <EditIcon />
+                        </IconButton>
+                      </Tooltip>
 
-                    <Tooltip title="Delete">
-                      <IconButton
-                        color="error"
-                        onClick={() => handleDelete(user.id)}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </Tooltip>
-                  </TableCell>
-                </TableRow>
-              ))}
+                      <Tooltip title="Delete">
+                        <IconButton
+                          color="error"
+                          onClick={() => handleDelete(user.id)}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </TableCell>
+                  </TableRow>
+                ))}
           </TableBody>
         </Table>
 
