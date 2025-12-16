@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://mutualfund-admin-backend.vercel.app/api",
 });
 
 // ⬇️ Add this to send token with ALL protected requests
