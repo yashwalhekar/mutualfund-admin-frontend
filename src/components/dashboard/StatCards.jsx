@@ -18,12 +18,17 @@ export const StatCards = ({ stats }) => {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
       {cardData.map((item, i) => (
         <Tooltip key={i} title={item.desc} arrow placement="top">
-          <div className="bg-gradient-to-r from-[#444F87] to-[#4F5CA0] text-white p-5 rounded-xl shadow-md text-center text-sm font-semibold transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-indigo-300/40 cursor-pointer">
+          <div className="bg-gradient-to-r from-[#444F87] to-[#4F5CA0] text-white p-4 sm:p-5 rounded-xl shadow-md text-center transition-all hover:scale-105 cursor-pointer">
+            {/* Label */}
+            <div className="text-xs sm:text-sm opacity-90">{item.label}</div>
+
             {/* Count */}
-            <div className="text-2xl font-extrabold mt-2">{item.count}</div>
+            <div className="text-xl sm:text-2xl font-extrabold mt-1">
+              {item.count}
+            </div>
           </div>
         </Tooltip>
       ))}

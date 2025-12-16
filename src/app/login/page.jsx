@@ -43,7 +43,7 @@ const LoginPage = () => {
       initial={{ opacity: 0, scale: 0.96 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="relative w-full h-screen bg-white flex items-center justify-end overflow-hidden"
+      className="relative w-full h-screen bg-white flex items-center justify-center md:justify-end overflow-hidden"
     >
       {/* Animated Circle Section */}
       <motion.div
@@ -66,7 +66,7 @@ const LoginPage = () => {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.3 }}
-        className="mr-0 md:mr-[10%] lg:mr-[30%]"
+        className="ml-[10%] md:mr-[10%] lg:mr-[30%]"
       >
         <Paper
           elevation={6}

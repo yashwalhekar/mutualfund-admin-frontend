@@ -64,12 +64,12 @@ const VisitorsChart = ({ selectedMonth, setSelectedMonth }) => {
 
   return (
     <div className="mb-12">
-      <div className="flex items-center justify-between mb-3">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3">
         <h2 className="text-lg font-semibold text-[#4e5da9] font-poppins">
           Visitors in {selectedMonth} — {selectedWeek}
         </h2>
 
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row gap-2">
           <select
             className="border border-blue-400 px-4 py-1 text-[#4e5da9] rounded-md text-sm"
             value={selectedMonth}
@@ -96,29 +96,41 @@ const VisitorsChart = ({ selectedMonth, setSelectedMonth }) => {
         </div>
       </div>
 
-      <div className="bg-white p-4 rounded-xl shadow-md">
+      <div className="bg-white p-4 rounded-xl shadow-md h-[200px] sm:h-[320px]">
         <Bar
           data={weeklyVisitors}
-          height={80}
           options={{
-            animation: {
-              duration: 1200,
-              easing: "easeInOutQuad",
+            responsive: true,
+            maintainAspectRatio: false,
+
+            layout: {
+              padding: {
+                top: 0,
+                bottom: 0,
+              },
             },
+
             scales: {
               y: {
                 beginAtZero: true,
+                grace: "0%",
+                ticks: {
+                  padding: 4,
+                },
+              },
+              x: {
+                ticks: {
+                  padding: 6,
+                },
               },
             },
+
             plugins: {
               legend: {
-                display: true,
+                display: false, // 👈 best for mobile
               },
               tooltip: {
                 enabled: true,
-                animation: {
-                  duration: 400,
-                },
               },
             },
           }}
