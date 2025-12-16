@@ -16,7 +16,7 @@ import { motion } from "framer-motion";
 import API from "@/service/api";
 import Cookies from "js-cookie";
 
-const LoginPage = () => {
+const page = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -54,7 +54,7 @@ const LoginPage = () => {
       >
         <div className="relative w-[130%] h-[130%] bg-[#98a1e6] rounded-r-full overflow-hidden left-[-20%]">
           <img
-            src="https://plus.unsplash.com/premium_photo-1742395281417-3c49a3d66dd7?q=80&w=1112&auto=format&fit=crop"
+            src="/image3.jpg"
             alt="Plant Money"
             className="w-full h-full object-cover"
           />
@@ -70,8 +70,11 @@ const LoginPage = () => {
       >
         <Paper
           elevation={6}
-          className="p-8 rounded-2xl w-[90%] sm:w-[400px] shadow-xl backdrop-blur-sm"
-          sx={{ backgroundColor: "rgba(255, 255, 255, 0.4)" }}
+          className="p-8 rounded-2xl w-[90%] sm:w-[400px] shadow-xl backdrop-blur-xs"
+          sx={{
+            backgroundColor: "rgba(255, 255, 255, 0.85)",
+            backdropFilter: "blur(10px)",
+          }}
         >
           <Typography
             variant="h5"
@@ -185,4 +188,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default page;
