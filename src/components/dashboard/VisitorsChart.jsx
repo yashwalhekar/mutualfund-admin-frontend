@@ -65,7 +65,7 @@ const VisitorsChart = ({ selectedMonth, setSelectedMonth }) => {
   return (
     <div className="mb-12">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3">
-        <h2 className="text-lg sm:text-sm font-semibold text-[#4e5da9] font-poppins">
+        <h2 className="text-lg sm:text-sm md:text-lg font-semibold text-[#4e5da9] font-poppins">
           Visitors in {selectedMonth} - {selectedWeek}
         </h2>
 
