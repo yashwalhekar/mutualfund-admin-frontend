@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -9,18 +9,22 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import API from "@/service/api";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
-const VisitorsChart = ({ selectedMonth, setSelectedMonth }) => {
-  const [selectedWeek, setSelectedWeek] = useState("Week 1");
+const getCurrentWeekOfMonth = () => {
+  const day = new Date().getDate();
+  if (day <= 7) return "Week 1";
+  if (day <= 14) return "Week 2";
+  if (day <= 21) return "Week 3";
+  return "Week 4";
+};
 
-  const weeklyData = {
-    "Week 1": [20, 35, 50, 25, 40, 60, 30],
-    "Week 2": [30, 40, 55, 35, 50, 70, 40],
-    "Week 3": [25, 30, 45, 20, 55, 80, 45],
-    "Week 4": [40, 55, 60, 30, 70, 90, 50],
-  };
+const VisitorsChart = ({ selectedMonth, setSelectedMonth }) => {
+  const [selectedWeek, setSelectedWeek] = useState("");
+
+  const [weeklyCounts, setWeeklyCounts] = useState([0, 0, 0, 0, 0, 0, 0]);
 
   const barColors = [
     "#4F5CA0",
@@ -32,12 +36,53 @@ const VisitorsChart = ({ selectedMonth, setSelectedMonth }) => {
     "#9575CD",
   ];
 
+  // 🔹 SET CURRENT MONTH & WEEK ON LOAD
+  useEffect(() => {
+    const today = new Date();
+
+    const currentMonth = today.toLocaleString("default", {
+      month: "long",
+    });
+
+    setSelectedMonth(currentMonth);
+    setSelectedWeek(getCurrentWeekOfMonth());
+  }, []);
+
+  // 🔥 FETCH WEEKLY DATA
+  useEffect(() => {
+    if (!selectedMonth || !selectedWeek) return;
+
+    const fetchWeeklyVisitors = async () => {
+      try {
+        const res = await API.get(
+          `/visitors/weekly?month=${selectedMonth}&week=${selectedWeek}`
+        );
+
+        if (res.data.success) {
+          setWeeklyCounts([
+            res.data.data.Mon || 0,
+            res.data.data.Tue || 0,
+            res.data.data.Wed || 0,
+            res.data.data.Thu || 0,
+            res.data.data.Fri || 0,
+            res.data.data.Sat || 0,
+            res.data.data.Sun || 0,
+          ]);
+        }
+      } catch (err) {
+        console.error("Weekly visitors fetch error:", err);
+      }
+    };
+
+    fetchWeeklyVisitors();
+  }, [selectedMonth, selectedWeek]);
+
   const weeklyVisitors = {
     labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
     datasets: [
       {
         label: `${selectedWeek} Visitors`,
-        data: weeklyData[selectedWeek],
+        data: weeklyCounts,
         backgroundColor: barColors,
         borderRadius: 6,
         barThickness: 25,
@@ -102,36 +147,11 @@ const VisitorsChart = ({ selectedMonth, setSelectedMonth }) => {
           options={{
             responsive: true,
             maintainAspectRatio: false,
-
-            layout: {
-              padding: {
-                top: 0,
-                bottom: 0,
-              },
-            },
-
             scales: {
-              y: {
-                beginAtZero: true,
-                grace: "0%",
-                ticks: {
-                  padding: 4,
-                },
-              },
-              x: {
-                ticks: {
-                  padding: 6,
-                },
-              },
+              y: { beginAtZero: true },
             },
-
             plugins: {
-              legend: {
-                display: false, // 👈 best for mobile
-              },
-              tooltip: {
-                enabled: true,
-              },
+              legend: { display: false },
             },
           }}
         />
