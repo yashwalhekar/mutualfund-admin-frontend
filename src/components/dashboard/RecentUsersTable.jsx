@@ -1,13 +1,23 @@
-import React from "react";
+"use client";
+import API from "@/service/api";
+import React, { useEffect, useState } from "react";
 
 const RecentUsersTable = () => {
-  const recentUsers = [
-    { name: "John Doe", email: "john@gmail.com", date: "2025-01-12" },
-    { name: "Alice Smith", email: "alice@gmail.com", date: "2025-01-11" },
-    { name: "Bob Johnson", email: "bob@gmail.com", date: "2025-01-10" },
-    { name: "Riya Patel", email: "riya@gmail.com", date: "2025-01-09" },
-    { name: "Aman Kumar", email: "aman@gmail.com", date: "2025-01-08" },
-  ];
+  const [recentUsers, setRecentUsers] = useState([]);
+
+  const fetchRecentContactedUsers = async () => {
+    try {
+      const res = await API.get("/contact-us/recent");
+      console.log(res);
+      setRecentUsers(res.data.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchRecentContactedUsers();
+  }, []);
 
   return (
     <div>
@@ -17,7 +27,7 @@ const RecentUsersTable = () => {
 
       <div className="bg-white rounded-xl shadow-md p-3 sm:p-4 overflow-x-auto">
         <table className="w-full border-collapse">
-          <thead className=" text-white">
+          <thead className="text-white">
             <tr className="bg-[#4e5da9] text-left">
               <th className="p-2 sm:p-3 text-xs sm:text-sm">Name</th>
               <th className="p-2 sm:p-3 text-xs sm:text-sm">Email</th>
@@ -28,13 +38,25 @@ const RecentUsersTable = () => {
           <tbody>
             {recentUsers.map((user, index) => (
               <tr key={index} className="border-b hover:bg-gray-50 transition">
-                <td className="p-2 sm:p-3 text-xs sm:text-sm">{user.name}</td>
-                <td className="p-2 sm:p-3 text-xs sm:text-sm">{user.email}</td>
-                <td className="p-2 sm:p-3 text-xs sm:text-sm">{user.date}</td>
+                <td className="p-2 sm:p-3 text-xs sm:text-sm">
+                  {user.name || "-"}
+                </td>
+                <td className="p-2 sm:p-3 text-xs sm:text-sm">
+                  {user.email || "-"}
+                </td>
+                <td className="p-2 sm:p-3 text-xs sm:text-sm">
+                  {new Date(user.createdAt).toLocaleDateString()}
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
+
+        {recentUsers.length === 0 && (
+          <p className="text-center text-gray-500 py-4">
+            No recent users found
+          </p>
+        )}
       </div>
     </div>
   );
