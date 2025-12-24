@@ -16,13 +16,12 @@ const Dashboard = () => {
   });
   useEffect(() => {
     const fetchStats = async () => {
-      console.log("hekllo");
-
       try {
-        const [blogRes, testRes, userRes] = await Promise.all([
+        const [blogRes, testRes, userRes, visitorsRes] = await Promise.all([
           API.get("/blogs/count"),
           API.get("/testimonials/count"),
           API.get("/contact-us/count"),
+          API.get("/visitors/today"),
         ]);
         console.log(blogRes.data.totalBlogs);
 
@@ -30,6 +29,7 @@ const Dashboard = () => {
           blogs: blogRes.data.totalBlogs || 0,
           testimonials: testRes.data.totalTestimonials || 0,
           users: userRes.data.totalReachedUsers || 0,
+          visitors: visitorsRes.data.todayVisitors || 0,
         });
       } catch (error) {
         console.error("Error fetching stats:", error);

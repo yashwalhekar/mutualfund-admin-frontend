@@ -57,6 +57,7 @@ const VisitorsChart = ({ selectedMonth, setSelectedMonth }) => {
         const res = await API.get(
           `/visitors/weekly?month=${selectedMonth}&week=${selectedWeek}`
         );
+        console.log(res);
 
         if (res.data.success) {
           setWeeklyCounts([
