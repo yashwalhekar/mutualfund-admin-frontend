@@ -19,10 +19,15 @@ export const StatCards = ({ stats }) => {
       count: stats.users,
       desc: "Total Reached users",
     },
+    {
+      label: "Toady's Visitors",
+      count: stats.visitors,
+      desc: "Total Reached users",
+    },
   ];
 
   return (
-    <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-6">
+    <div className="grid grid-cols-4 gap-2 sm:gap-4 mb-6">
       {cardData.map((item, i) => (
         <Tooltip key={i} title={item.desc} arrow placement="top">
           <div
@@ -37,7 +42,7 @@ export const StatCards = ({ stats }) => {
             cursor-pointer"
           >
             {/* Label */}
-            <p className="text-[11px] sm:text-sm md:text-base opacity-90 truncate">
+            <p className="text-[11px] sm:text-xs md:text-base opacity-90 truncate">
               {item.label}
             </p>
 
