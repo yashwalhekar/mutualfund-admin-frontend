@@ -20,6 +20,7 @@ import GroupIcon from "@mui/icons-material/Group";
 const Sidebar = () => {
   const [testimonialOpen, setTestimonialOpen] = useState(false);
   const [blogOpen, setBlogOpen] = useState(false);
+  const [questionsOpen, setQuestionsOpen] = useState(false);
 
   return (
     <Drawer
@@ -148,6 +149,58 @@ const Sidebar = () => {
                 <ListAltIcon sx={{ mr: 2 }} />
                 <ListItemText
                   primary="View Blog"
+                  primaryTypographyProps={{
+                    fontWeight: "semi-bold",
+                    fontSize: 18,
+                    fontFamily: "Poppins",
+                  }}
+                />
+              </ListItemButton>
+            </Link>
+          </List>
+        </Collapse>
+
+        {/* Questions */}
+        <ListItemButton onClick={() => setQuestionsOpen(!questionsOpen)}>
+          <ArticleIcon sx={{ mr: 2 }} />
+          <ListItemText
+            primary="Chat-Bot Management"
+            primaryTypographyProps={{
+              fontWeight: "semi-bold",
+              fontSize: 20,
+              fontFamily: "Poppins",
+            }}
+          />
+          {questionsOpen ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+
+        <Collapse in={questionsOpen} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <Link
+              href="/chatbot/add"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <ListItemButton sx={{ pl: 4 }}>
+                <AddIcon sx={{ mr: 2 }} />
+                <ListItemText
+                  primary="Add Questions"
+                  primaryTypographyProps={{
+                    fontWeight: "semi-bold",
+                    fontSize: 18,
+                    fontFamily: "Poppins",
+                  }}
+                />
+              </ListItemButton>
+            </Link>
+
+            <Link
+              href="/chatbot"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <ListItemButton sx={{ pl: 4 }}>
+                <ListAltIcon sx={{ mr: 2 }} />
+                <ListItemText
+                  primary="View All Questions"
                   primaryTypographyProps={{
                     fontWeight: "semi-bold",
                     fontSize: 18,

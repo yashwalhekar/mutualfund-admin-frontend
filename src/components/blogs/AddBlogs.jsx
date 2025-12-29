@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import FolderIcon from "@mui/icons-material/Folder";
 import DescriptionIcon from "@mui/icons-material/Description";
 import API from "@/service/api";
@@ -12,8 +12,8 @@ const AddBlogs = () => {
   const [category, setCategory] = useState("");
 
   const [fileName, setFileName] = useState("");
-  const [image, setImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState("");
+  const [images, setImages] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState([]);
   const [publishDate, setPublishDate] = useState("");
   const [slugs, setSlugs] = useState("");
 
@@ -23,14 +23,20 @@ const AddBlogs = () => {
     message: "",
     severity: "success",
   });
-
+  const fileInputRef = useRef(null);
   // Handle image upload
   const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+    const files = Array.from(e.target.files);
+    if (!files.length) return;
 
-    setImage(file);
-    setImagePreview(URL.createObjectURL(file));
+    setImages((prev) => [...prev, ...files]);
+    setImagePreviews((prev) => [
+      ...prev,
+      ...files.map((file) => URL.createObjectURL(file)),
+    ]);
+
+    // 🔥 THIS LINE FIXES THE ISSUE
+    fileInputRef.current.value = "";
   };
 
   // Handle .docx upload
@@ -69,14 +75,14 @@ const AddBlogs = () => {
       formData.append("slug", slugs);
       formData.append("publishDate", publishDate);
 
-      if (image) formData.append("image", image);
-      console.log("formdata", formData);
+      // ✅ MUST MATCH upload.array("images")
+      images.forEach((img) => {
+        formData.append("images", img);
+      });
 
       const res = await API.post("/blogs", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-
-      console.log(res);
 
       setSnackbar({
         open: true,
@@ -84,13 +90,14 @@ const AddBlogs = () => {
         severity: "success",
       });
 
+      // reset
       setTitle("");
       setCreator("");
       setContent("");
       setCategory("");
       setPublishDate("");
-      setImage("");
-      setImagePreview("");
+      setImages([]);
+      setImagePreviews([]);
       setFileName("");
       setSlugs("");
     } catch (error) {
@@ -101,7 +108,6 @@ const AddBlogs = () => {
       });
     } finally {
       setLoading(false);
-      setTimeout(() => setSnackbar({ ...snackbar, open: false }), 3000);
     }
   };
 
@@ -196,22 +202,40 @@ const AddBlogs = () => {
 
           <div className="flex items-center border rounded-md p-2 gap-3 bg-gray-50">
             <input
+              ref={fileInputRef}
               type="file"
               accept="image/*"
-              onChange={handleImageUpload}
+              multiple
               className="cursor-pointer text-sm w-full"
+              onChange={handleImageUpload}
             />
+
             <FolderIcon className="text-[#444F87]" />
           </div>
 
           {/* IMAGE PREVIEW */}
-          {imagePreview && (
-            <img
-              src={imagePreview}
-              alt="Preview"
-              className="mt-3 w-full h-56 object-cover rounded-xl shadow-md"
-            />
-          )}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
+            {imagePreviews.map((src, index) => (
+              <div key={index} className="relative">
+                <img
+                  src={src}
+                  className="h-32 w-full object-cover rounded-lg shadow"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    setImages(images.filter((_, i) => i !== index));
+                    setImagePreviews(
+                      imagePreviews.filter((_, i) => i !== index)
+                    );
+                  }}
+                  className="absolute top-1 right-1 bg-red-500 text-white text-xs px-2 py-1 rounded"
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* BLOG FILE (AUTO EXTRACT TEXT) */}

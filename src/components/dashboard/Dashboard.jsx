@@ -13,7 +13,6 @@ const Dashboard = () => {
     blogs: 0,
     testimonials: 0,
     users: 0,
-    visitors: 0,
   });
   useEffect(() => {
     const fetchStats = async () => {
