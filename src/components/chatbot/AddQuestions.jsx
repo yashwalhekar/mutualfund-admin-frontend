@@ -10,6 +10,7 @@ const AddQuestions = () => {
   const [language, setLanguage] = useState("en");
   const [isActive, setIsActive] = useState(true);
   const [order, setOrder] = useState(0);
+  const [topic, setTopic] = useState("");
 
   const [loading, setLoading] = useState(false);
 
@@ -32,6 +33,7 @@ const AddQuestions = () => {
         language,
         isActive,
         order,
+        topic,
       };
 
       const res = await API.post("/chatbot", payload);
@@ -47,6 +49,7 @@ const AddQuestions = () => {
         setLanguage("en");
         setIsActive(true);
         setOrder(0);
+        setTopic("");
       }
     } catch (error) {
       console.error(error);
@@ -68,6 +71,16 @@ const AddQuestions = () => {
         onSubmit={handleSubmit}
         className="bg-white shadow-md p-6 rounded-lg space-y-5"
       >
+        {/* topic */}
+        <div>
+          <label className="block mb-1 font-bold font-poppins">Topic</label>
+          <input
+            type="text"
+            value={topic}
+            onChange={(e) => setTopic(e.target.value)}
+            className="w-full border border-gray-300 rounded-md p-2"
+          />
+        </div>
         {/* Question */}
         <div>
           <label className="block mb-1 font-bold font-poppins">Question</label>
