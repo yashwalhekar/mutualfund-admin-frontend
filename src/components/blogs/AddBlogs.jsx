@@ -59,7 +59,21 @@ const AddBlogs = () => {
     };
     reader.readAsArrayBuffer(file);
   };
+  const uploadToCloudinary = async (file) => {
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "thakurfinservblogs");
 
+    const res = await fetch(
+      "https://api.cloudinary.com/v1_1/dukykfqu6/image/upload",
+      {
+        method: "POST",
+        body: data,
+      }
+    );
+
+    return res.json();
+  };
   // Submit form with image + data
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -67,19 +81,23 @@ const AddBlogs = () => {
     try {
       setLoading(true);
 
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("creator", creator);
-      formData.append("content", content);
-      formData.append("category", category);
-      formData.append("slug", slugs);
-      formData.append("publishDate", publishDate);
+      // 1️⃣ Upload images to Cloudinary
+      const uploadedImages = await Promise.all(
+        images.map((img) => uploadToCloudinary(img))
+      );
 
-      images.forEach((img) => {
-        formData.append("images", img);
+      const imageUrls = uploadedImages.map((res) => res.secure_url);
+
+      // 2️⃣ Send only JSON to backend
+      await API.post("/blogs/create", {
+        title,
+        creator,
+        content,
+        category,
+        slug: slugs,
+        publishDate,
+        images: imageUrls,
       });
-
-      await API.post("/blogs", formData);
 
       alert("Blog created successfully");
 
@@ -100,7 +118,6 @@ const AddBlogs = () => {
       setLoading(false);
     }
   };
-
   return (
     <>
       <h1 className="text-2xl font-bold font-poppins text-[#4e5da9]">
