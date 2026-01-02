@@ -13,6 +13,7 @@ const Dashboard = () => {
     blogs: 0,
     testimonials: 0,
     users: 0,
+    visitors: 0,
   });
   useEffect(() => {
     const fetchStats = async () => {
@@ -23,7 +24,7 @@ const Dashboard = () => {
           API.get("/contact-us/count"),
           API.get("/visitors/today"),
         ]);
-        console.log(blogRes.data.totalBlogs);
+        console.log("count", visitorsRes);
 
         setStats({
           blogs: blogRes.data.totalBlogs || 0,
