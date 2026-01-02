@@ -50,7 +50,7 @@ const AddBlogs = () => {
     reader.onload = async (e) => {
       const arrayBuffer = e.target.result;
       try {
-        const result = await mammoth.extractRawText({ arrayBuffer });
+        const result = await mammoth.convertToHtml({ arrayBuffer });
         setContent(result.value);
       } catch (err) {
         console.error("Error reading Word file:", err);
