@@ -4,6 +4,7 @@ import FolderIcon from "@mui/icons-material/Folder";
 import DescriptionIcon from "@mui/icons-material/Description";
 import API from "@/service/api";
 import * as mammoth from "mammoth";
+import sanitizeHtml from "sanitize-html";
 
 const AddBlogs = () => {
   const [title, setTitle] = useState("");
@@ -44,19 +45,45 @@ const AddBlogs = () => {
     const file = event.target.files[0];
     if (!file) return;
 
+    // ❗ Allow only .docx
+    if (!file.name.endsWith(".docx")) {
+      alert("Please upload a .docx file only");
+      return;
+    }
+
     setFileName(file.name);
 
     const reader = new FileReader();
+
     reader.onload = async (e) => {
       const arrayBuffer = e.target.result;
+
       try {
         const result = await mammoth.convertToHtml({ arrayBuffer });
-        setContent(result.value);
+
+        // ✅ SANITIZE HTML (PRODUCTION SAFE)
+        const safeHTML = sanitizeHtml(result.value, {
+          allowedTags: sanitizeHtml.defaults.allowedTags.concat([
+            "h1",
+            "h2",
+            "h3",
+            "img",
+            "table",
+            "tr",
+            "td",
+          ]),
+          allowedAttributes: {
+            img: ["src", "alt"],
+          },
+        });
+
+        setContent(safeHTML);
       } catch (err) {
         console.error("Error reading Word file:", err);
-        alert("Failed to read the Word file. Please try again.");
+        alert("Failed to read the Word file");
       }
     };
+
     reader.readAsArrayBuffer(file);
   };
   const uploadToCloudinary = async (file) => {
@@ -71,6 +98,11 @@ const AddBlogs = () => {
         body: data,
       }
     );
+
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error("Cloudinary upload failed: " + text);
+    }
 
     return res.json();
   };
@@ -268,14 +300,10 @@ const AddBlogs = () => {
         {/* Blog Text */}
         <div>
           <label className="block mb-1 font-bold font-poppins">Blog Text</label>
-          <textarea
-            rows="6"
-            name="content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            placeholder="Write blog content here..."
-            className="w-full border border-gray-300 rounded-md p-2 resize-none"
-          ></textarea>
+          <div
+            className="border p-4 rounded-md prose max-w-none"
+            dangerouslySetInnerHTML={{ __html: content }}
+          />
         </div>
 
         <button
