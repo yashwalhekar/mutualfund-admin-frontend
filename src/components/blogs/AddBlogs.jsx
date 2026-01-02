@@ -75,20 +75,13 @@ const AddBlogs = () => {
       formData.append("slug", slugs);
       formData.append("publishDate", publishDate);
 
-      // ✅ MUST MATCH upload.array("images")
       images.forEach((img) => {
         formData.append("images", img);
       });
 
-      const res = await API.post("/blogs", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      await API.post("/blogs", formData);
 
-      setSnackbar({
-        open: true,
-        message: res.data.message || "Blog created successfully!",
-        severity: "success",
-      });
+      alert("Blog created successfully");
 
       // reset
       setTitle("");
@@ -100,12 +93,9 @@ const AddBlogs = () => {
       setImagePreviews([]);
       setFileName("");
       setSlugs("");
-    } catch (error) {
-      setSnackbar({
-        open: true,
-        message: error.response?.data?.message || "Failed to create blog",
-        severity: "error",
-      });
+    } catch (err) {
+      console.error(err);
+      alert("Failed to create blog");
     } finally {
       setLoading(false);
     }
@@ -273,9 +263,10 @@ const AddBlogs = () => {
 
         <button
           type="submit"
-          className="w-full bg-[#444F87] text-white font-semibold rounded-md px-6 py-2 hover:bg-[#2f365f] transition"
+          disabled={loading}
+          className="w-full bg-[#444F87] text-white font-semibold rounded-md px-6 py-2 hover:bg-[#2f365f] transition disabled:opacity-60"
         >
-          Submit
+          {loading ? "Submitting..." : "Submit"}
         </button>
       </form>
     </>
