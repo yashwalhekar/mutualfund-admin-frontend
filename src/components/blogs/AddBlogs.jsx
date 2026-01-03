@@ -210,13 +210,20 @@ const AddBlogs = () => {
             <label className="block mb-1 font-bold font-poppins">
               Category
             </label>
-            <input
-              type="text"
+
+            <select
               name="category"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="w-full border border-gray-300 rounded-md p-2"
-            />
+              className="w-full border border-gray-300 rounded-md p-2 bg-white"
+            >
+              <option value="">Select Category</option>
+              <option value="what-is-mf">What is Mutual Fund</option>
+              <option value="Mutual Fund in Shares">
+                Mutual Fund in Shares
+              </option>
+              <option value="Future And Options">Future And Options</option>
+            </select>
           </div>
 
           <div>
