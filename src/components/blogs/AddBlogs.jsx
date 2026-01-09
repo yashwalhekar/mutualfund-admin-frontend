@@ -218,6 +218,7 @@ const AddBlogs = () => {
               className="w-full border border-gray-300 rounded-md p-2 bg-white"
             >
               <option value="">Select Category</option>
+              <option value="mutual-fund">Mutual Fund</option>
               <option value="what-is-mf">What is Mutual Fund</option>
               <option value="Mutual Fund in Shares">
                 Mutual Fund in Shares
