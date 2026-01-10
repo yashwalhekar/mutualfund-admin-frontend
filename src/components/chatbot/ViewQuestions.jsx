@@ -20,6 +20,8 @@ import {
   DialogActions,
   Button,
   TextField,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 
 import EditIcon from "@mui/icons-material/Edit";
@@ -34,6 +36,20 @@ const ViewQuestions = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
 
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "primary",
+  });
+
+  const showSnackbar = (message, severity = "primary") => {
+    setSnackbar({ open: true, message, severity });
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false });
+  };
+
   const fetchQuestions = async () => {
     try {
       setLoading(true);
@@ -41,6 +57,7 @@ const ViewQuestions = () => {
       console.log(res.data.data);
       setQuestions(res.data.data);
     } catch (error) {
+      showSnackbar("Failed to load questions", "error");
       console.error("Failed to load Questions", error);
     } finally {
       setLoading(false);
@@ -84,8 +101,10 @@ const ViewQuestions = () => {
     try {
       await API.put(`/chatbot/${selectedQuestion._id}`, selectedQuestion);
       setOpenDialog(false);
+      showSnackbar("Question updated successfully");
       fetchQuestions();
     } catch (error) {
+      showSnackbar("Failed to update blog", "error");
       console.error("Failed to update blog", error);
     }
   };
@@ -97,7 +116,9 @@ const ViewQuestions = () => {
     try {
       await API.delete(`/chatbot/${id}`);
       fetchQuestions();
+      showSnackbar("Question deleted successfully");
     } catch (err) {
+      showSnackbar("Delete failed", "error");
       console.error("Delete failed", err);
     }
   };
@@ -266,6 +287,21 @@ const ViewQuestions = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbar.severity}
+          variant="filled"
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </>
   );
 };

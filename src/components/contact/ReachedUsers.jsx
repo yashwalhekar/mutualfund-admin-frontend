@@ -11,6 +11,8 @@ import {
   IconButton,
   Tooltip,
   TablePagination,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -21,6 +23,19 @@ const ReachedUsers = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const [users, setUsers] = useState([]);
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "primary",
+  });
+
+  const showSnackbar = (message, severity = "primary") => {
+    setSnackbar({ open: true, message, severity });
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false });
+  };
 
   const handleContactData = async () => {
     try {
@@ -28,6 +43,7 @@ const ReachedUsers = () => {
       console.log(res);
       setUsers(res.data);
     } catch (error) {
+      showSnackbar("Failed to load users", "error");
       console.log(error.message);
     }
   };
@@ -43,8 +59,16 @@ const ReachedUsers = () => {
     setPage(0);
   };
 
-  const handleDelete = (id) => {
-    setUsers((prev) => prev.filter((user) => user.id !== id));
+  const handleDelete = async (id) => {
+    if (!confirm("Are you sure you want to delete this data?")) return;
+    try {
+      await API.delete(`/contact-us/${id}`);
+      showSnackbar("User deleted successfully", "primary");
+      handleContactData();
+    } catch (err) {
+      showSnackbar("Delete failed", "error");
+      console.error("Delete failed", err);
+    }
   };
 
   return (
@@ -91,16 +115,10 @@ const ReachedUsers = () => {
                         : user.message}
                     </TableCell>
                     <TableCell>
-                      <Tooltip title="Edit">
-                        <IconButton color="primary">
-                          <EditIcon />
-                        </IconButton>
-                      </Tooltip>
-
                       <Tooltip title="Delete">
                         <IconButton
                           color="error"
-                          onClick={() => handleDelete(user.id)}
+                          onClick={() => handleDelete(user._id)}
                         >
                           <DeleteIcon />
                         </IconButton>
@@ -122,6 +140,20 @@ const ReachedUsers = () => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </TableContainer>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbar.severity}
+          variant="filled"
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </>
   );
 };
