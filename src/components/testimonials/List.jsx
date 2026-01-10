@@ -18,6 +18,8 @@ import {
   TextField,
   DialogActions,
   Button,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -33,12 +35,19 @@ const List = () => {
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
-    severity: "",
+    severity: "primary",
   });
 
   const [page, setPage] = useState(0); // current page
   const [rowsPerPage, setRowsPerPage] = useState(5); // rows per page
 
+  const showSnackbar = (message, severity = "primary") => {
+    setSnackbar({ open: true, message, severity });
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false });
+  };
   const handleFetchTestimonial = async () => {
     try {
       const res = await API.get("/testimonials");
@@ -56,6 +65,7 @@ const List = () => {
   const handleToggleStatus = async (id) => {
     try {
       const res = await API.put(`/testimonials/${id}/status`); // backend returns updated testimonial
+
       const updated = res.data.data; // this is the updated testimonial
 
       // update state for that specific testimonial without refetching whole list
@@ -65,20 +75,10 @@ const List = () => {
         )
       );
 
-      setSnackbar({
-        open: true,
-        message: `Status ${
-          updated.status ? "Activated" : "Deactivated"
-        } Successfully!`,
-        severity: "success",
-      });
+      showSnackbar("Status updated successfully");
     } catch (error) {
+      showSnackbar("Failed to update status", "error");
       console.log("Failed to update status", error.message);
-      setSnackbar({
-        open: true,
-        message: "Failed to update status",
-        severity: "error",
-      });
     }
   };
 
@@ -112,17 +112,13 @@ const List = () => {
   const handleSave = async (id) => {
     try {
       await API.put(`/testimonials/${id}`, editedData);
-      setSnackbar({
-        open: true,
-        message: "Updated successfully!",
-        severity: "success",
-      });
+      showSnackbar("Testimonial updated successfully");
       setEditId(null);
       handleFetchTestimonial();
       handleCloseDialog();
     } catch (error) {
       console.error("Error updating testimonial:", error);
-      setSnackbar({ open: true, message: "Update failed", severity: "error" });
+      showSnackbar("Failed to update testimonial", "error");
     }
   };
 
@@ -132,14 +128,10 @@ const List = () => {
     try {
       await API.delete(`/testimonials/${id}`);
       setTestimonials(testimonials.filter((t) => t._id !== id));
-      setSnackbar({
-        open: true,
-        message: "Deleted successfully!",
-        severity: "success",
-      });
+      showSnackbar("Testimonial deleted successfully");
     } catch (error) {
       console.error("Error deleting testimonial:", error);
-      setSnackbar({ open: true, message: "Delete failed", severity: "error" });
+      showSnackbar("Failed to delete testimonial", "error");
     }
   };
   const filteredTestimonials = testimonials.filter((t) =>
@@ -320,6 +312,21 @@ const List = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbar.severity}
+          variant="filled"
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </>
   );
 };

@@ -20,6 +20,8 @@ import {
   DialogActions,
   Button,
   TextField,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 
 import EditIcon from "@mui/icons-material/Edit";
@@ -33,7 +35,19 @@ const ViewBlogs = () => {
   // EDIT STATES
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedBlog, setSelectedBlog] = useState(null);
+  const [snackbar, setSnackbar] = useState({
+    open: true,
+    message: "",
+    severity: "primary",
+  });
 
+  const showSnackbar = (message, severity = "primary") => {
+    setSnackbar({ open: true, message, severity });
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false });
+  };
   const fetchBlogs = async () => {
     try {
       setLoading(true);
@@ -55,6 +69,7 @@ const ViewBlogs = () => {
 
       setBlogs(normalized);
     } catch (error) {
+      showSnackbar("Failed to load blogs", "error");
       console.error("Failed to load blogs", error);
     } finally {
       setLoading(false);
@@ -71,8 +86,10 @@ const ViewBlogs = () => {
   const handleToggleStatus = async (id) => {
     try {
       await API.put(`/blogs/${id}/status`);
+      showSnackbar("Status updated successfully", "primary");
       fetchBlogs();
     } catch (err) {
+      showSnackbar("Status update failed", "error");
       console.error("Status update failed", err);
     }
   };
@@ -98,8 +115,10 @@ const ViewBlogs = () => {
     try {
       await API.put(`/blogs/${selectedBlog._id}`, selectedBlog);
       setOpenDialog(false);
+      showSnackbar("Blog updated successfully", "primary");
       fetchBlogs();
     } catch (error) {
+      showSnackbar("Failed to update blog", "error");
       console.error("Failed to update blog", error);
     }
   };
@@ -110,8 +129,10 @@ const ViewBlogs = () => {
 
     try {
       await API.delete(`/blogs/${id}`);
+      showSnackbar("Blog deleted successfully", "primary");
       fetchBlogs();
     } catch (err) {
+      showSnackbar("Delete failed", "error");
       console.error("Delete failed", err);
     }
   };
@@ -301,6 +322,21 @@ const ViewBlogs = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbar.severity}
+          variant="filled"
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </>
   );
 };
