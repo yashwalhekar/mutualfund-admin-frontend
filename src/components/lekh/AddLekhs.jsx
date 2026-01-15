@@ -218,16 +218,16 @@ const AddLekhs = () => {
               className="w-full border border-gray-300 rounded-md p-2 bg-white"
             >
               <option value="">Select Category</option>
-              <option value="mutualfund-related">म्युचुअल फंडाबाबत</option>
-              <option value="share-based">समभाग आधारित</option>
-              <option value="debt-securities">कर्जरोखे आधारित</option>
-              <option value="capital-Market">भांडवली बाजार</option>
-              <option value="futures">फ्युचर्स</option>
-              <option value="options">ऑप्शन</option>
-              <option value="investment">गुंतवणूक</option>
-              <option value="demateaccount">डिमॅट खाते</option>
-              <option value="goods">उत्पादने</option>
-              <option value="services-and-facilities">सेवा व सुविधा</option>
+              <option value="म्युचुअल फंडाबाबत">म्युचुअल फंडाबाबत</option>
+              <option value="समभाग आधारित">समभाग आधारित</option>
+              <option value="कर्जरोखे आधारित">कर्जरोखे आधारित</option>
+              <option value="भांडवली बाजार">भांडवली बाजार</option>
+              <option value="फ्युचर्स">फ्युचर्स</option>
+              <option value="ऑप्शन">ऑप्शन</option>
+              <option value="गुंतवणूक">गुंतवणूक</option>
+              <option value="डिमॅट खाते">डिमॅट खाते</option>
+              <option value="उत्पादने">उत्पादने</option>
+              <option value="सेवा व सुविधा">सेवा व सुविधा</option>
             </select>
           </div>
 
