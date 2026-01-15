@@ -22,6 +22,8 @@ const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [testimonialOpen, setTestimonialOpen] = useState(false);
   const [blogOpen, setBlogOpen] = useState(false);
+  const [questionsOpen, setQuestionsOpen] = useState(false);
+  const [lekhOpen, setLekhsOpen] = useState(false);
 
   const handleLogout = () => {
     Cookies.remove("token");
@@ -88,6 +90,10 @@ const Navbar = () => {
             blogOpen={blogOpen}
             setBlogOpen={setBlogOpen}
             closeAllMenus={closeAllMenus}
+            setLekhsOpen={setLekhsOpen}
+            setQuestionsOpen={setQuestionsOpen}
+            lekhOpen={lekhOpen}
+            questionsOpen={questionsOpen}
           />
         </Box>
       </Drawer>
