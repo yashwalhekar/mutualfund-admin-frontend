@@ -15,6 +15,10 @@ const SideBarItems = ({
   blogOpen,
   setBlogOpen,
   closeAllMenus,
+  lekhOpen,
+  setLekhsOpen,
+  questionsOpen,
+  setQuestionsOpen,
 }) => {
   return (
     <List>
@@ -85,6 +89,110 @@ const SideBarItems = ({
             <ListItemText primary="View Blogs" />
           </ListItemButton>
         </Link>
+      </Collapse>
+
+      {/* Lekh Dropdown */}
+      <ListItemButton onClick={() => setLekhsOpen(!lekhOpen)}>
+        <ArticleIcon sx={{ mr: 2 }} />
+        <ListItemText
+          primary="Lekh Management"
+          primaryTypographyProps={{
+            fontWeight: "semi-bold",
+            fontSize: 20,
+            fontFamily: "Poppins",
+          }}
+        />
+        {lekhOpen ? <ExpandLess /> : <ExpandMore />}
+      </ListItemButton>
+
+      <Collapse in={lekhOpen} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <Link
+            href="/lekh/add"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <ListItemButton sx={{ pl: 4 }}>
+              <AddIcon sx={{ mr: 2 }} />
+              <ListItemText
+                primary="Add New Lekh"
+                primaryTypographyProps={{
+                  fontWeight: "semi-bold",
+                  fontSize: 18,
+                  fontFamily: "Poppins",
+                }}
+              />
+            </ListItemButton>
+          </Link>
+
+          <Link
+            href="/lekh"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <ListItemButton sx={{ pl: 4 }}>
+              <ListAltIcon sx={{ mr: 2 }} />
+              <ListItemText
+                primary="View Lekh"
+                primaryTypographyProps={{
+                  fontWeight: "semi-bold",
+                  fontSize: 18,
+                  fontFamily: "Poppins",
+                }}
+              />
+            </ListItemButton>
+          </Link>
+        </List>
+      </Collapse>
+
+      {/* Questions */}
+      <ListItemButton onClick={() => setQuestionsOpen(!questionsOpen)}>
+        <ArticleIcon sx={{ mr: 2 }} />
+        <ListItemText
+          primary="Chat-Bot Management"
+          primaryTypographyProps={{
+            fontWeight: "semi-bold",
+            fontSize: 20,
+            fontFamily: "Poppins",
+          }}
+        />
+        {questionsOpen ? <ExpandLess /> : <ExpandMore />}
+      </ListItemButton>
+
+      <Collapse in={questionsOpen} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <Link
+            href="/chatbot/add"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <ListItemButton sx={{ pl: 4 }}>
+              <AddIcon sx={{ mr: 2 }} />
+              <ListItemText
+                primary="Add Questions"
+                primaryTypographyProps={{
+                  fontWeight: "semi-bold",
+                  fontSize: 18,
+                  fontFamily: "Poppins",
+                }}
+              />
+            </ListItemButton>
+          </Link>
+
+          <Link
+            href="/chatbot"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <ListItemButton sx={{ pl: 4 }}>
+              <ListAltIcon sx={{ mr: 2 }} />
+              <ListItemText
+                primary="View All Questions"
+                primaryTypographyProps={{
+                  fontWeight: "semi-bold",
+                  fontSize: 18,
+                  fontFamily: "Poppins",
+                }}
+              />
+            </ListItemButton>
+          </Link>
+        </List>
       </Collapse>
 
       {/* Users */}
