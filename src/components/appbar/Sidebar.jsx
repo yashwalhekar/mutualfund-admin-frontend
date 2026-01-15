@@ -21,6 +21,7 @@ const Sidebar = () => {
   const [testimonialOpen, setTestimonialOpen] = useState(false);
   const [blogOpen, setBlogOpen] = useState(false);
   const [questionsOpen, setQuestionsOpen] = useState(false);
+  const [lekhOpen, setLekhsOpen] = useState(false);
 
   return (
     <Drawer
@@ -149,6 +150,58 @@ const Sidebar = () => {
                 <ListAltIcon sx={{ mr: 2 }} />
                 <ListItemText
                   primary="View Blog"
+                  primaryTypographyProps={{
+                    fontWeight: "semi-bold",
+                    fontSize: 18,
+                    fontFamily: "Poppins",
+                  }}
+                />
+              </ListItemButton>
+            </Link>
+          </List>
+        </Collapse>
+
+        {/* Lekh Dropdown */}
+        <ListItemButton onClick={() => setLekhsOpen(!lekhOpen)}>
+          <ArticleIcon sx={{ mr: 2 }} />
+          <ListItemText
+            primary="Lekh Management"
+            primaryTypographyProps={{
+              fontWeight: "semi-bold",
+              fontSize: 20,
+              fontFamily: "Poppins",
+            }}
+          />
+          {lekhOpen ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+
+        <Collapse in={lekhOpen} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <Link
+              href="/lekh/add"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <ListItemButton sx={{ pl: 4 }}>
+                <AddIcon sx={{ mr: 2 }} />
+                <ListItemText
+                  primary="Add New Lekh"
+                  primaryTypographyProps={{
+                    fontWeight: "semi-bold",
+                    fontSize: 18,
+                    fontFamily: "Poppins",
+                  }}
+                />
+              </ListItemButton>
+            </Link>
+
+            <Link
+              href="/lekh"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <ListItemButton sx={{ pl: 4 }}>
+                <ListAltIcon sx={{ mr: 2 }} />
+                <ListItemText
+                  primary="View Lekh"
                   primaryTypographyProps={{
                     fontWeight: "semi-bold",
                     fontSize: 18,
