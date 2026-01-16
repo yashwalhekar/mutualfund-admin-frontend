@@ -131,7 +131,7 @@ const AddLekhs = () => {
         images: imageUrls,
       });
 
-      alert("Lekh created successfully");
+      alert("Article created successfully");
 
       // reset
       setTitle("");
@@ -145,7 +145,7 @@ const AddLekhs = () => {
       setSlugs("");
     } catch (err) {
       console.error(err);
-      alert("Failed to create blog");
+      alert("Failed to create Article");
     } finally {
       setLoading(false);
     }
@@ -153,7 +153,7 @@ const AddLekhs = () => {
   return (
     <>
       <h1 className="text-2xl font-bold font-poppins text-[#4e5da9]">
-        ADD LEKH
+        ADD ARTICLE
       </h1>
 
       <div className="border border-[#444F87] my-3" />
@@ -198,7 +198,7 @@ const AddLekhs = () => {
               name="slug"
               value={slugs}
               onChange={(e) => setSlugs(e.target.value)}
-              placeholder="ex: lekh-title-url"
+              placeholder="ex: Article-title-url"
               className="w-full border border-gray-300 rounded-md p-2"
             />
           </div>
@@ -292,7 +292,7 @@ const AddLekhs = () => {
         {/* Lekh FILE (AUTO EXTRACT TEXT) */}
         <div>
           <label className="block mb-1 font-bold font-poppins">
-            Upload Lekh File
+            Upload Article File
           </label>
 
           <div className="flex items-center border rounded-md p-2 gap-3 bg-gray-50">
@@ -311,7 +311,9 @@ const AddLekhs = () => {
 
         {/* Lekh Text */}
         <div>
-          <label className="block mb-1 font-bold font-poppins">Lekh Text</label>
+          <label className="block mb-1 font-bold font-poppins">
+            Article Text
+          </label>
           <div
             className="border p-4 text-black rounded-md prose max-w-none"
             dangerouslySetInnerHTML={{ __html: content }}
