@@ -68,8 +68,8 @@ const ViewLekhs = () => {
 
       setLekhs(normalized);
     } catch (error) {
-      showSnackbar("Failed to load Lekhs", "error");
-      console.error("Failed to load Lekhs", error);
+      showSnackbar("Failed to load Article", "error");
+      console.error("Failed to load Article", error);
     } finally {
       setLoading(false);
     }
@@ -116,21 +116,21 @@ const ViewLekhs = () => {
     try {
       await API.put(`/lekh/${selectedLekh._id}`, selectedLekh);
       setOpenDialog(false);
-      showSnackbar("Lekh updated successfully", "primary");
+      showSnackbar("Article updated successfully", "primary");
       fetchLekhs();
     } catch (error) {
-      showSnackbar("Failed to update Lekh", "error");
-      console.error("Failed to update Lekh", error);
+      showSnackbar("Failed to update Article", "error");
+      console.error("Failed to update Article", error);
     }
   };
 
   // DELETE Lekh
   const handleDelete = async (id) => {
-    if (!confirm("Are you sure you want to delete this Lekh?")) return;
+    if (!confirm("Are you sure you want to delete this Article?")) return;
 
     try {
       await API.delete(`/lekh/${id}`);
-      showSnackbar("Lekh deleted successfully", "primary");
+      showSnackbar("Article deleted successfully", "primary");
       fetchLekhs();
     } catch (err) {
       showSnackbar("Delete failed", "error");
@@ -141,7 +141,7 @@ const ViewLekhs = () => {
   return (
     <>
       <h1 className="text-2xl font-bold font-poppins text-[#4e5da9]">
-        LEKH'S DETAILS
+        ARTICLE's DETAILS
       </h1>
 
       <div className="border border-[#444F87] my-3" />
@@ -255,7 +255,7 @@ const ViewLekhs = () => {
             color: "#4e5da9",
           }}
         >
-          Edit Lekh
+          Edit Article
         </DialogTitle>
 
         <DialogContent className="space-y-4">
