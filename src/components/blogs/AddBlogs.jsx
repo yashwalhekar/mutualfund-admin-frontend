@@ -247,7 +247,7 @@ const AddBlogs = () => {
             Upload Image
           </label>
 
-          <div className="flex items-center border rounded-md p-2 gap-3 bg-gray-50">
+          <div className="flex items-center  border rounded-md p-2 gap-3 bg-black-50">
             <input
               ref={fileInputRef}
               type="file"
@@ -309,7 +309,7 @@ const AddBlogs = () => {
         <div>
           <label className="block mb-1 font-bold font-poppins">Blog Text</label>
           <div
-            className="border p-4 rounded-md prose max-w-none"
+            className="border  text-black p-4 rounded-md prose max-w-none"
             dangerouslySetInnerHTML={{ __html: content }}
           />
         </div>

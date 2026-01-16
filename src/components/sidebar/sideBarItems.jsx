@@ -95,7 +95,7 @@ const SideBarItems = ({
       <ListItemButton onClick={() => setLekhsOpen(!lekhOpen)}>
         <ArticleIcon sx={{ mr: 2 }} />
         <ListItemText
-          primary="Lekh Management"
+          primary="Article Management"
           primaryTypographyProps={{
             fontWeight: "semi-bold",
             fontSize: 20,
@@ -114,7 +114,7 @@ const SideBarItems = ({
             <ListItemButton sx={{ pl: 4 }}>
               <AddIcon sx={{ mr: 2 }} />
               <ListItemText
-                primary="Add New Lekh"
+                primary="Add New Article"
                 primaryTypographyProps={{
                   fontWeight: "semi-bold",
                   fontSize: 18,
@@ -131,7 +131,7 @@ const SideBarItems = ({
             <ListItemButton sx={{ pl: 4 }}>
               <ListAltIcon sx={{ mr: 2 }} />
               <ListItemText
-                primary="View Lekh"
+                primary="View Article"
                 primaryTypographyProps={{
                   fontWeight: "semi-bold",
                   fontSize: 18,

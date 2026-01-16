@@ -313,7 +313,7 @@ const AddLekhs = () => {
         <div>
           <label className="block mb-1 font-bold font-poppins">Lekh Text</label>
           <div
-            className="border p-4 rounded-md prose max-w-none"
+            className="border p-4 text-black rounded-md prose max-w-none"
             dangerouslySetInnerHTML={{ __html: content }}
           />
         </div>
