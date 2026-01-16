@@ -24,3 +24,27 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+@layer base {
+  /* Labels */
+  label {
+    @apply text-black font-medium;
+  }
+
+  /* Inputs & Textareas */
+  input,
+  textarea {
+    @apply text-black;
+  }
+
+  /* Placeholder */
+  input::placeholder,
+  textarea::placeholder {
+    @apply text-gray-500;
+    opacity: 1;
+  }
+
+  /* Select */
+  select {
+    @apply text-black;
+  }
+}
