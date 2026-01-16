@@ -163,7 +163,7 @@ const List = () => {
             <TableRow className="bg-[#444F87]">
               {[
                 "Name",
-                "Mobile Number",
+
                 "Email",
                 "Country",
                 "City",
@@ -188,7 +188,7 @@ const List = () => {
               .map((testimonial) => (
                 <TableRow key={testimonial._id}>
                   <TableCell>{testimonial.fullName}</TableCell>
-                  <TableCell>{testimonial.phone}</TableCell>
+
                   <TableCell>{testimonial.email}</TableCell>
                   <TableCell>{testimonial.country}</TableCell>
                   <TableCell>{testimonial.city}</TableCell>

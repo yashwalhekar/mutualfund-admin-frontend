@@ -20,6 +20,11 @@ export const StatCards = ({ stats }) => {
       desc: "Total Reached users",
     },
     {
+      label: "Articles",
+      count: stats.articles,
+      desc: "Total Number of Articles",
+    },
+    {
       label: "Toady's Visitors",
       count: stats.visitors,
       desc: "Total Reached users",
@@ -27,7 +32,7 @@ export const StatCards = ({ stats }) => {
   ];
 
   return (
-    <div className="grid grid-cols-4 gap-2 sm:gap-4 mb-6">
+    <div className="grid grid-cols-5 gap-2 sm:gap-4 mb-6">
       {cardData.map((item, i) => (
         <Tooltip key={i} title={item.desc} arrow placement="top">
           <div

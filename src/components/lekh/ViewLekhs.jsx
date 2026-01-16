@@ -31,8 +31,7 @@ import API from "@/service/api";
 const ViewLekhs = () => {
   const [lekhs, setLekhs] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  // EDIT STATES
+  const [categoryFilter, setCategoryFilter] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedLekh, setSelectedLekh] = useState(null);
   const [snackbar, setSnackbar] = useState({
@@ -75,7 +74,9 @@ const ViewLekhs = () => {
       setLoading(false);
     }
   };
-
+  const filteredLekhs = lekhs.filter((lekh) =>
+    lekh.category?.toLowerCase().includes(categoryFilter.toLowerCase())
+  );
   useEffect(() => {
     fetchLekhs();
   }, []);
@@ -144,16 +145,28 @@ const ViewLekhs = () => {
       </h1>
 
       <div className="border border-[#444F87] my-3" />
-
+      <div className="flex justify-end mb-4">
+        <TextField
+          label="Search by Category"
+          variant="outlined"
+          size="small"
+          value={categoryFilter}
+          onChange={(e) => {
+            setCategoryFilter(e.target.value);
+            setPage(0);
+          }}
+          sx={{ width: 250 }}
+        />
+      </div>
       <TableContainer component={Paper} className="shadow-lg rounded-xl">
         <Table>
           <TableHead>
             <TableRow className="bg-[#444F87]">
               {[
                 "Date",
-                "Image",
-                "Slug",
                 "Creator",
+                "Title",
+                "Category",
                 "Lekh Text",
                 "Status",
                 "Action",
@@ -170,19 +183,15 @@ const ViewLekhs = () => {
           </TableHead>
 
           <TableBody>
-            {lekhs
+            {filteredLekhs
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((lekh) => (
                 <TableRow key={lekh._id}>
                   <TableCell>{lekh.publishDate}</TableCell>
 
-                  <TableCell>
-                    <Avatar src={lekh.image} variant="rounded" />
-                  </TableCell>
-
-                  <TableCell>{lekh.slug}</TableCell>
-
                   <TableCell>{lekh.creator}</TableCell>
+                  <TableCell>{lekh.title}</TableCell>
+                  <TableCell>{lekh.category}</TableCell>
 
                   <TableCell>
                     {lekh.content.length > 40
@@ -224,7 +233,7 @@ const ViewLekhs = () => {
 
         <TablePagination
           component="div"
-          count={lekhs.length}
+          count={filteredLekhs.length}
           page={page}
           onPageChange={(_, newPage) => setPage(newPage)}
           rowsPerPage={rowsPerPage}

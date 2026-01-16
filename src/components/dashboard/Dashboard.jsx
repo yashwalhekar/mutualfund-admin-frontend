@@ -14,23 +14,26 @@ const Dashboard = () => {
     testimonials: 0,
     users: 0,
     visitors: 0,
+    articles: 0,
   });
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const [blogRes, testRes, userRes, visitorsRes] = await Promise.all([
-          API.get("/blogs/count"),
-          API.get("/testimonials/count"),
-          API.get("/contact-us/count"),
-          API.get("/visitors/today"),
-        ]);
-        console.log("count", visitorsRes);
+        const [blogRes, testRes, userRes, visitorsRes, articleRes] =
+          await Promise.all([
+            API.get("/blogs/count"),
+            API.get("/testimonials/count"),
+            API.get("/contact-us/count"),
+            API.get("/visitors/today"),
+            API.get("/lekh/count"),
+          ]);
 
         setStats({
           blogs: blogRes.data.totalBlogs || 0,
           testimonials: testRes.data.totalTestimonials || 0,
           users: userRes.data.totalReachedUsers || 0,
           visitors: visitorsRes.data.todayVisitors || 0,
+          articles: articleRes.data.totalLekh || 0,
         });
       } catch (error) {
         console.error("Error fetching stats:", error);

@@ -38,13 +38,13 @@ const RecentUsersTable = () => {
           <tbody>
             {recentUsers.map((user, index) => (
               <tr key={index} className="border-b hover:bg-gray-50 transition">
-                <td className="p-2 sm:p-3 text-xs sm:text-sm">
+                <td className="p-2 sm:p-3 text-xs sm:text-sm text-black">
                   {user.name || "-"}
                 </td>
-                <td className="p-2 sm:p-3 text-xs sm:text-sm">
+                <td className="p-2 sm:p-3 text-xs sm:text-sm text-black ">
                   {user.email || "-"}
                 </td>
-                <td className="p-2 sm:p-3 text-xs sm:text-sm">
+                <td className="p-2 sm:p-3 text-xs sm:text-sm text-black">
                   {new Date(user.createdAt).toLocaleDateString()}
                 </td>
               </tr>
